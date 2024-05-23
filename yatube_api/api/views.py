@@ -46,8 +46,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        post_id = self.kwargs.get('post_id')
-        return Comment.objects.filter(post_id=post_id)
+        post = self.get_post()
+        return post.comments.all()
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user, post=self.get_post())
